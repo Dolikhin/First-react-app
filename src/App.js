@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // import Counter from './components/Counter';
 // import ClassCounter from './components/ClassCounter';
 // import PostItem from './components/PostItem';
@@ -11,23 +11,30 @@ import PostFilter from './components/PostFilter';
 import MyModal from './components/UI/myModal/MyModal';
 import MyButton from './components/UI/button/MyButton';
 import { usePosts } from './hooks/usePosts';
+import PostService from './API/PostService';
+import Loader from './components/UI/loader/Loader';
+import { useFetching } from './hooks/useFetching';
+
 
 function App() {
-  const [posts, setPosts] = useState([
-    { id: 1, title: 'aa', body: 'яя' },
-    { id: 2, title: 'uuu', body: 'вв' },
-    { id: 3, title: 'bb', body: 'ооо' },
-  ])
-  
-  const [filter, setFilter] = useState({sort: '', query: ''})
+  const [posts, setPosts] = useState([])
+  const [filter, setFilter] = useState({ sort: '', query: '' })
   const [modal, setModal] = useState(false);
   const sortedAnsSearchedPosts = usePosts(posts, filter.sort, filter.query)
+ const [fetchPosts, isPostLoading, postError] = useFetching(async () => {
+   const posts = await PostService.getAll();
+   setPosts(posts)
+ })
+
+  useEffect(() => {
+    fetchPosts()
+  }, [])
 
   const createPost = (newPost) => {
     setPosts([...posts, newPost])
     setModal(false)
   }
-  
+
   const removePost = (post) => {
     setPosts(posts.filter(p => p.id !== post.id))
   }
@@ -36,24 +43,30 @@ function App() {
   return (
 
     <div className="App">
-
-      <MyButton style={{marginTop: '15px'}}onClick={() => setModal(true)}>
+      <button onClick={fetchPosts}>GET POSTS</button>
+      <MyButton style={{ marginTop: '15px' }} onClick={() => setModal(true)}>
         Создать пользователя
       </MyButton>
 
       <MyModal visible={modal} setVisible={setModal}>
-        <PostForm create={createPost}/>
+        <PostForm create={createPost} />
       </MyModal>
 
-      
+
       <hr style={{ margin: '15px 0' }} />
-      <PostFilter 
-      filter={filter} 
-      setFilter={setFilter}/>
-      
-      <Postlist remove={removePost} posts={sortedAnsSearchedPosts} title={"Посты про JS"} />
-    
-    
+      <PostFilter
+        filter={filter}
+        setFilter={setFilter} />
+      {postError &&
+        <h1>Произошла ошибка... ${postError}</h1>
+      }
+      {isPostLoading
+        ?  <div style={{display: 'flex', justifyContent: 'center', marginTop: '50px'}}><Loader /></div>
+        : <Postlist remove={removePost} posts={sortedAnsSearchedPosts} title={"Посты про JS"} />
+      }
+
+
+
     </div>
   );
 }
