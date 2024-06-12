@@ -40,3 +40,23 @@
   transform: translateX(-350px);
   transition: all 500ms ease-in;
 }
+
+.page__wrapper {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.page {
+  padding: 10px;
+  color: yellow;
+  background: darkblue;
+  cursor: pointer;
+  border: 1px solid yellow;
+}
+
+.page__current {
+  font-weight: bold;
+  border: 2px solid orange;
+  background: #000;
+}
