@@ -1,0 +1,35 @@
+.navbar {
+  height: 100px;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  background: yellow;
+}
+
+.navbar ul {
+  margin-left: auto;
+  display: flex;
+}
+
+.navbar ul li {
+  margin-right: 10px;
+  text-decoration: none;
+  border: 1px solid black;
+  padding: 5px;
+  list-style-type: none;
+  background: #000;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.navbar__links {
+  background: black;
+  color: yellow;
+  text-decoration: none;
+}
+
+a:visited {
+  color: yellow;
+  /* Цвет посещенной ссылки */
+}

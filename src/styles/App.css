@@ -2,12 +2,16 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background: lightgrey;
+  
 }
 
 #root {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+a {
+  text-decoration: none;
 }
 
 .App {
@@ -21,6 +25,10 @@
   margin-top: 20px;
   justify-content: space-between;
   align-items: center;
+}
+
+.post__btns {
+  display: flex;
 }
 
 .post-enter {
@@ -60,3 +68,4 @@
   border: 2px solid orange;
   background: #000;
 }
+
